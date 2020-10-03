@@ -7,3 +7,5 @@
   # SpringSystem(弹簧)
   ## Elastic Force(弹力)
   ## Damping(阻尼)
+  ## Other
+  
