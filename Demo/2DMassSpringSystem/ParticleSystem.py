@@ -6,7 +6,7 @@ from functools import reduce
 
 # Physical Particle System
 class ParticleSystem:
-    #VAR=0;VECTOR=1;MATRIX=2;
+    # VAR=0;VECTOR=1;MATRIX=2;
     # ElemType:ti.var:dimension=[1],Be Specified as specific value:(value) for HighD=>1D
     def __init__(self,order:int,elemtype:ti.template=ti.Vector,dimension:list=[None],datatype=ti.f32,shape:list=[],offset=None,needs_grad=False,stepSize=0.1,is_implict=False):
         self.elemtype=elemtype
@@ -32,6 +32,10 @@ class ParticleSystem:
             for i in range(order+1):
                 self.state.append(ti.Vector(dimension[0],dt=datatype,shape=shape,offset=offset,needs_grad=needs_grad))
 
+    # Initialization
+    @abstractmethod
+    def init():
+        pass
     # Integrated function
     @abstractmethod
     def evalf():

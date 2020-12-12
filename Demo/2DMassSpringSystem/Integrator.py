@@ -1,8 +1,7 @@
 import taichi as ti
 from abc import abstractmethod
+import functools
 from ParticleSystem import ParticleSystem
-import copy
-from functools import reduce
 
 #ti.init(arch=ti.gpu)
 

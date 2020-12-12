@@ -28,7 +28,7 @@ class MassSpringSystem(ParticleSystem):
         if(is_implict==True):
             self.mat=ti.Matrix(dimension[0],dimension[0],datatype,(),offset,needs_grad=needs_grad)
             self.identity_mat=ti.Matrix(dimension[0],dimension[0],datatype,(),offset,needs_grad=needs_grad)
-            #self.dfDivdx_mat=ti.Matrix(dimension[0],dimension[0],datatype,shape,offset,needs_grad=needs_grad)
+            self.dfDivdx_mat=ti.Matrix(dimension[0],dimension[0],datatype,shape,offset,needs_grad=needs_grad)
             #self.dfDivdv_mat=ti.Matrix(dimension[0],dimension[0],datatype,shape,offset,needs_grad=needs_grad)
         #self.stepSize[None]=ti.sqrt(self.mass/self.spring_stiffness)
         #self.init()
@@ -61,19 +61,15 @@ class MassSpringSystem(ParticleSystem):
                 inx+=1
     '''
     '''
-    def setParameter(self,unitAmount_particle=None,mass=None,spring_stiffness=None,rest_length=None,damping=None,stepSize=None):
-        if(unitAmount_particle!=None):
-            self.unitAmount_particle=unitAmount_particle
-        if(mass!=None):
-            self.mass=mass
-        if(spring_stiffness!=None):
-            self.spring_stiffness=spring_stiffness
-        if(rest_length!=None):
-            self.rest_length=rest_length
-        if(damping!=None):
-            self.damping=damping
-        if(stepSize!=None):
-            self.stepSize=stepSize
+    def setParameter(self,mass=None,spring_stiffness=None,rest_length=None,damping=None):
+        #if(unitAmount_particle!=None):
+        #    self.unitAmount_particle=unitAmount_particle
+        self.mass=mass or self.mass
+        self.spring_stiffness=spring_stiffness or self.spring_stiffness
+        self.rest_length=rest_length or self.rest_length
+        self.damping=damping or self.damping
+        #if(stepSize!=None):
+        #    self.stepSize=stepSize
     '''
     '''
     @ti.pyfunc
@@ -162,7 +158,7 @@ lines=[]
 for i in range(2):
     lines.append(ti.Vector(2,ti.f32,shape=(2*num*(num-1)+(num-1)*(num-1)*2)))
 system=MassSpringSystem(ti.Vector([0.1,0.1]),num,order=2,elemtype=ti.Vector,dimension=[2],is_implict=True)
-specie=input('请输入积分方法(Plz input the num of Integration Method): 1:ForwardEuler 2:SemiImplicitEuler 3:RK4 4:BackwardEuler\n:')
+specie=input('\n请输入积分方法(Plz input the num of Integration Method): 1:ForwardEuler 2:SemiImplicitEuler 3:RK4 4:BackwardEuler\n:')
 if(specie==1):
     integrator=ForwardEuler(stepSize=0.1)
 elif(specie ==2):
